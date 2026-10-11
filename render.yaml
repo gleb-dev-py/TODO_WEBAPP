@@ -1,0 +1,19 @@
+databases:
+  - name: project_db
+    databaseName: project_db
+    user: glebdevpy
+    plan: free # Free tier: 1 GB storage, expires after 90 days
+    ipAllowList: [] # Allow connections from any IP
+
+services:
+  - type: web
+    name: inventory-manager
+    runtime: python
+    plan: free
+    buildCommand: "pip install -r todo/requirements.txt"
+    startCommand: "gunicorn --chdir todo core.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DATABASE_URL
+        value: postgresql://projectdb_glebdev_user:QwfleugAGUnEr5KimNqCXD61Y6Ekd5jv@dpg-da7jmr5g1s2s73844edg-a/projectdb_glebdev
